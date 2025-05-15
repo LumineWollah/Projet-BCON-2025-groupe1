@@ -76,7 +76,6 @@ Prise en charge de Cryptomatte ou Z-pass auto
 📝 Présentation
 
 🎯 Titre (Title)
-
   Auto Compo Lite : Simplifier le compositing dans Blender
 
 📄 Résumé 
@@ -86,5 +85,6 @@ Prise en charge de Cryptomatte ou Z-pass auto
 💡 Proposition de projet 
 
   Auto Compo Lite est un addon léger pour Blender, conçu pour automatiser les effets de base en compositing (glare, vignette, correction des couleurs), afin d’aider les artistes à améliorer rapidement leurs rendus, sans devoir manipuler de nœuds complexes.
+  
 Le problème rencontré par les artistes est que  le compositing dans Blender est puissant mais intimidant, surtout pour les débutants.
 Notre solution : Un bouton unique dans l’interface qui applique automatiquement une configuration de nœuds prête à l’emploi, sans effort.

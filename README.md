@@ -2,10 +2,14 @@
 
 🛣️ Feuille de route - Auto Compo Lite
 
+
+
 🎯 Objectif principal
   Créer un addon léger, simple et pédagogique qui applique automatiquement des effets de compositing (glare, vignette, color balance), tout en étant facilement extensible pour les utilisateurs plus avancés.
 
 ✅ Phase 1 : Prototype Minimal Viable (MVP) (mai - juin 2025)
+
+
 
 
 🔹 Interface simple      
@@ -16,6 +20,8 @@ Glare + Vignette + Color Balance enchaînés automatiquement              ✅ Fa
 
 🔹 Sauvegarde de preset  
 Créer une version simple avec les réglages "hardcodés" pour débutants   ✅ Fait
+
+
 
 
 🚀 Phase 2 : Expériences utilisateur et ajout d’options (juillet 2025)
@@ -31,6 +37,8 @@ Ajout d’un flag : “Appliquer automatiquement au rendu”
 Ajuster les nodes pour un meilleur rendu sous AgX (Color Space aware)
 
 
+
+
 💡 Phase 3 : Fonctionnalités avancées & différenciation (août - septembre 2025)
 
 🧠 Scène-aware
@@ -41,6 +49,8 @@ Tooltip ou mini popup expliquant chaque effet
 
 🔁 Presets custom
 Sauvegarde et chargement de presets utilisateurs (via JSON)
+
+
 
 
 🌍 Phase 4 : Préparation à la présentation Blender Conference (octobre 2025)
@@ -56,6 +66,8 @@ Slides + explication des choix UX/dev
 Release sur Blender Market ou [GitHub + Gumroad/Itch.io]
 
 
+
+
 🧩 Bonus / Idées futures
 Intégration au Video Sequence Editor (effets sur montage)
 
@@ -69,14 +81,22 @@ API pour d’autres addons/plugins
 Prise en charge de Cryptomatte ou Z-pass auto
 
 
+
+
 📝 Présentation
+
+
 
 🎯 Titre (Title)
   Auto Compo Lite : Simplifier le compositing dans Blender
 
+  
+
 📄 Résumé 
 
   Auto Compo Lite est un addon léger pour Blender qui configure automatiquement les effets de lueur (glare), de vignettage et de correction des couleurs dans le compositeur. Cette présentation explore sa conception, ses objectifs et la manière dont il aide les artistes à améliorer rapidement leurs rendus sans nécessiter une expertise approfondie des nœuds.
+
+  
   
 💡 Proposition de projet 
 

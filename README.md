@@ -17,18 +17,18 @@
 
 Panneau dans Render Properties avec un bouton "Appliquer Auto Compo"   ✅ Fait
 
-🔹 **Setup de nodes **   
+🔹 **Setup de nodes**   
 
 Glare + Vignette + Color Balance enchaînés automatiquement              ✅ Fait
 
-🔹 **Sauvegarde de preset ** 
+🔹 **Sauvegarde de preset** 
 
 Créer une version simple avec les réglages "hardcodés" pour débutants   ✅ Fait
 
 
 
 
-🚀 **Phase 2 **: Expériences utilisateur et ajout d’options (juillet 2025)
+🚀 **Phase 2**: Expériences utilisateur et ajout d’options (juillet 2025)
 
 
 🔸 **Options dans l’UI**

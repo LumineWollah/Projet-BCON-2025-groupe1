@@ -7,7 +7,6 @@
 
 ✅ Phase 1 : Prototype Minimal Viable (MVP) (mai - juin 2025)
 
-Étape:
 
 🔹 Interface simple      
 Panneau dans Render Properties avec un bouton "Appliquer Auto Compo"   ✅ Fait
@@ -21,7 +20,6 @@ Créer une version simple avec les réglages "hardcodés" pour débutants   ✅ 
 
 🚀 Phase 2 : Expériences utilisateur et ajout d’options (juillet 2025)
 
-Étape ;
 
 🔸 Options dans l’UI
 Checkbox : Activer/Désactiver Glare, Vignette, Color Correction
@@ -34,8 +32,6 @@ Ajuster les nodes pour un meilleur rendu sous AgX (Color Space aware)
 
 
 💡 Phase 3 : Fonctionnalités avancées & différenciation (août - septembre 2025)
-
-Étape :
 
 🧠 Scène-aware
 Analyser la lumière/contraste pour adapter l’intensité des effets (jour/nuit, intérieur/extérieur)

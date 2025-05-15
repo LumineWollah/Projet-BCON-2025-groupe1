@@ -6,10 +6,15 @@
   Créer un addon léger, simple et pédagogique qui applique automatiquement des effets de compositing (glare, vignette, color balance), tout en étant facilement extensible pour les utilisateurs plus avancés.
 
 ✅ Phase 1 : Prototype Minimal Viable (MVP) (mai - juin 2025)
-Étape                     Description                                                            Objectif
-🔹 Interface simple      Panneau dans Render Properties avec un bouton "Appliquer Auto Compo"    ✅ Fait
-🔹 Setup de nodes        Glare + Vignette + Color Balance enchaînés automatiquement              ✅ Fait
-🔹 Sauvegarde de preset  Créer une version simple avec les réglages "hardcodés" pour débutants   🎯 à ajouter
+Étape:
+🔹 Interface simple      
+Panneau dans Render Properties avec un bouton "Appliquer Auto Compo"   ✅ Fait
+
+🔹 Setup de nodes        
+Glare + Vignette + Color Balance enchaînés automatiquement              ✅ Fait
+
+🔹 Sauvegarde de preset  
+Créer une version simple avec les réglages "hardcodés" pour débutants   🎯 à ajouter
 
 
 🚀 Phase 2 : Expériences utilisateur et ajout d’options (juillet 2025)

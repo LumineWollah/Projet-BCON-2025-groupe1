@@ -17,9 +17,16 @@
 
 Panneau dans Render Properties avec un bouton "Appliquer Auto Compo"   ✅ Fait
 
+![alt text](images/image.png)
+
+
+
 🔹 **Setup de nodes**   
 
 Glare + Vignette + Color Balance enchaînés automatiquement              ✅ Fait
+
+![](images/gif.gif)
+
 
 🔹 **Sauvegarde de preset** 
 

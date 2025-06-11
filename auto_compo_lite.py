@@ -1,145 +1,196 @@
+
 import bpy
+import json
+import os
 
-def organize_nodes(tree, nodes):
-    x_start = -400
-    y_start = 0
-    x_gap = 220
-    y_gap = -180
+# === PROPRIÉTÉS ===
 
-    layout = {
-        "Render Layers": (x_start, y_start),
-        "Glare": (x_start + x_gap, y_start),
-        "Ellipse Mask": (x_start + x_gap - 160, y_start + y_gap),  
-        "Blur": (x_start + 2 * x_gap, y_start + y_gap),
-        "Invert": (x_start + 3 * x_gap, y_start + y_gap),
-        "Mix": (x_start + 2 * x_gap, y_start),
-        "Color Balance": (x_start + 3 * x_gap, y_start),
-        "Composite": (x_start + 4 * x_gap + 240, y_start),          
-        "Viewer": (x_start + 4 * x_gap + 240, y_start + y_gap),     
-    }
+preset_items = [
+    ("base_compo.json", "Base Compo", ""),
+    ("film_look.json", "Film Look", ""),
+    ("soft_glow.json", "Soft Glow", ""),
+    ("color_pop.json", "Color Pop", "")
+]
 
-    for node in nodes:
-        if node.name in layout:
-            node.location = layout[node.name]
+bpy.types.Scene.auto_compo_json_path = bpy.props.StringProperty(
+    name="JSON Path",
+    subtype='FILE_PATH'
+)
 
-class AUTO_COMPO_OT_setup_nodes(bpy.types.Operator):
-    bl_idname = "auto_compo.setup_nodes"
-    bl_label = "Apply Auto Compo"
-    bl_description = "Automatically set up glare, vignette and color correction in compositor"
-    bl_options = {'REGISTER', 'UNDO'}
+bpy.types.Scene.auto_compo_preset = bpy.props.EnumProperty(
+    name="Preset",
+    items=preset_items
+)
+
+# === FONCTIONS UTILES ===
+
+def export_nodes_to_json(tree, filepath):
+    data = {"nodes": [], "links": []}
+    for node in tree.nodes:
+        node_data = {
+            "name": node.name,
+            "type": node.bl_idname,
+            "location": list(node.location),
+            "properties": {},
+            "label": node.label,
+            "width": node.width,
+            "height": node.height
+        }
+        for prop in node.bl_rna.properties:
+            if not prop.is_readonly and prop.identifier not in {"location", "name", "label"}:
+                try:
+                    val = getattr(node, prop.identifier)
+                    json.dumps(val)  # check serializable
+                    node_data["properties"][prop.identifier] = val
+                except:
+                    pass
+        data["nodes"].append(node_data)
+
+    for link in tree.links:
+        data["links"].append({
+            "from_node": link.from_node.name,
+            "from_socket": link.from_socket.name,
+            "to_node": link.to_node.name,
+            "to_socket": link.to_socket.name
+        })
+
+    with open(filepath, "w") as f:
+        json.dump(data, f, indent=4)
+
+def import_nodes_from_json(tree, filepath):
+    with open(filepath, "r") as f:
+        data = json.load(f)
+
+    tree.nodes.clear()
+    tree.links.clear()
+    nodes = {}
+
+    for node_data in data["nodes"]:
+        node = tree.nodes.new(type=node_data["type"])
+        node.name = node_data["name"]
+        node.location = node_data["location"]
+        node.label = node_data.get("label", "")
+        node.width = node_data.get("width", 140)
+        node.height = node_data.get("height", 100)
+
+        for key, val in node_data.get("properties", {}).items():
+            try:
+                setattr(node, key, val)
+            except:
+                pass
+
+        nodes[node.name] = node
+
+    for link_data in data["links"]:
+        from_node = nodes.get(link_data["from_node"])
+        to_node = nodes.get(link_data["to_node"])
+        if from_node and to_node:
+            from_socket = from_node.outputs.get(link_data["from_socket"])
+            to_socket = to_node.inputs.get(link_data["to_socket"])
+            if from_socket and to_socket:
+                tree.links.new(from_socket, to_socket)
+
+    # Auto setup viewer backdrop
+    if not any(n for n in tree.nodes if n.bl_idname == 'CompositorNodeViewer'):
+        viewer = tree.nodes.new('CompositorNodeViewer')
+        viewer.location = (600, -200)
+
+    for node in tree.nodes:
+        if node.bl_idname == 'CompositorNodeViewer':
+            composite_node = next((n for n in tree.nodes if n.bl_idname == 'CompositorNodeComposite'), None)
+            if composite_node:
+                tree.links.new(composite_node.outputs['Image'], node.inputs['Image'])
+            break
+
+    tree.use_opencl = True
+    bpy.context.scene.use_nodes = True
+    bpy.context.area.ui_type = 'CompositorNodeTree'
+    bpy.context.space_data.show_backdrop = True
+
+# === OPÉRATEURS ===
+
+class AUTO_COMPO_OT_export_json(bpy.types.Operator):
+    bl_idname = "auto_compo.export_json"
+    bl_label = "Export Nodes to JSON"
+
+    def execute(self, context):
+        path = context.scene.auto_compo_json_path
+        tree = context.scene.node_tree
+        if not path or not tree:
+            self.report({'ERROR'}, "Invalid path or no node tree")
+            return {'CANCELLED'}
+        export_nodes_to_json(tree, bpy.path.abspath(path))
+        return {'FINISHED'}
+
+class AUTO_COMPO_OT_import_json(bpy.types.Operator):
+    bl_idname = "auto_compo.import_json"
+    bl_label = "Import Nodes from JSON"
+
+    def execute(self, context):
+        path = context.scene.auto_compo_json_path
+        tree = context.scene.node_tree
+        if not path or not os.path.isfile(bpy.path.abspath(path)):
+            self.report({'ERROR'}, "File not found")
+            return {'CANCELLED'}
+        import_nodes_from_json(tree, bpy.path.abspath(path))
+        return {'FINISHED'}
+
+class AUTO_COMPO_OT_load_preset(bpy.types.Operator):
+    bl_idname = "auto_compo.load_preset"
+    bl_label = "Load Selected Preset"
 
     def execute(self, context):
         scene = context.scene
-        scene.use_nodes = True
         tree = scene.node_tree
-        tree.nodes.clear()
-
-        # Activation du Backdrop dans le Compositor
-        for area in context.screen.areas:
-            if area.type == 'NODE_EDITOR':
-                for space in area.spaces:
-                    if space.type == 'NODE_EDITOR' and space.tree_type == 'CompositorNodeTree':
-                        space.show_backdrop = True
-
-        # Création des nodes
-        rl = tree.nodes.new(type='CompositorNodeRLayers')
-        rl.name = "Render Layers"
-
-        glare = tree.nodes.new(type='CompositorNodeGlare')
-        glare.glare_type = 'FOG_GLOW'
-        glare.threshold = 0.5
-        glare.size = 6
-        glare.name = "Glare"
-
-        mask = tree.nodes.new(type='CompositorNodeEllipseMask')
-        mask.width = 0.8
-        mask.height = 0.8
-        mask.name = "Ellipse Mask"
-
-        blur = tree.nodes.new(type='CompositorNodeBlur')
-        blur.size_x = 300
-        blur.size_y = 300
-        blur.use_relative = False
-        blur.name = "Blur"
-
-        invert = tree.nodes.new(type='CompositorNodeInvert')
-        invert.name = "Invert"
-
-        mix = tree.nodes.new(type='CompositorNodeMixRGB')
-        mix.blend_type = 'MULTIPLY'
-        mix.inputs[0].default_value = 1.0
-        mix.name = "Mix"
-
-        color = tree.nodes.new(type='CompositorNodeColorBalance')
-        color.name = "Color Balance"
-
-        comp = tree.nodes.new(type='CompositorNodeComposite')
-        comp.name = "Composite"
-
-        viewer = tree.nodes.new(type='CompositorNodeViewer')
-        viewer.name = "Viewer"
-
-        # Frame pour le groupe vignette
-        frame = tree.nodes.new(type='NodeFrame')
-        frame.label = "Vignette Group"
-        frame.use_custom_color = True
-        frame.color = (0.8, 0.3, 0.1)
-        frame.location = (-150, -220)
-        frame.width = 380
-        frame.height = 280
-
-        # Parentage des nodes dans le frame
-        for n in [glare, mask, blur, invert]:
-            n.parent = frame
-
-        # Connexions
-        links = tree.links
-        links.new(rl.outputs['Image'], glare.inputs['Image'])
-        links.new(mask.outputs['Mask'], blur.inputs['Image'])
-        links.new(blur.outputs['Image'], invert.inputs['Color'])
-        links.new(glare.outputs['Image'], mix.inputs[1])
-        links.new(invert.outputs['Color'], mix.inputs[2])
-        links.new(mix.outputs['Image'], color.inputs['Image'])
-        links.new(color.outputs['Image'], comp.inputs['Image'])
-        links.new(color.outputs['Image'], viewer.inputs['Image'])
-
-        # Organisation des nodes
-        organize_nodes(tree, tree.nodes)
-
+        if tree is None:
+            self.report({'ERROR'}, "No active compositing node tree found.")
+            return {'CANCELLED'}
+        preset_name = scene.auto_compo_preset
+        preset_path = bpy.path.abspath(f"//presets/{preset_name}")
+        if not os.path.isfile(preset_path):
+            self.report({'ERROR'}, f"Preset file not found: {preset_path}")
+            return {'CANCELLED'}
+        import_nodes_from_json(tree, preset_path)
         return {'FINISHED'}
 
+# === PANEL ===
 
 class AUTO_COMPO_PT_main_panel(bpy.types.Panel):
     bl_label = "Auto Compo Lite"
     bl_idname = "AUTO_COMPO_PT_main_panel"
     bl_space_type = 'NODE_EDITOR'
     bl_region_type = 'UI'
-    bl_category = "Auto Compo"
-
-    @classmethod
-    def poll(cls, context):
-        space = context.space_data
-        return space.tree_type == 'CompositorNodeTree'
+    bl_category = 'Auto Compo Lite'
 
     def draw(self, context):
         layout = self.layout
-        layout.label(text="Auto Setup:")
-        layout.operator("auto_compo.setup_nodes", icon="NODETREE")
+        scene = context.scene
+        layout.prop(scene, "auto_compo_json_path")
+        layout.operator("auto_compo.export_json", icon="EXPORT")
+        layout.operator("auto_compo.import_json", icon="IMPORT")
+        layout.separator()
+        layout.label(text="Presets:")
+        layout.prop(scene, "auto_compo_preset")
+        layout.operator("auto_compo.load_preset", icon="IMPORT")
 
+# === REGISTER ===
 
-classes = [AUTO_COMPO_OT_setup_nodes, AUTO_COMPO_PT_main_panel]
+classes = [
+    AUTO_COMPO_OT_export_json,
+    AUTO_COMPO_OT_import_json,
+    AUTO_COMPO_OT_load_preset,
+    AUTO_COMPO_PT_main_panel
+]
 
 def register():
-    try:
-        unregister()
-    except:
-        pass
     for cls in classes:
         bpy.utils.register_class(cls)
 
 def unregister():
     for cls in reversed(classes):
         bpy.utils.unregister_class(cls)
+    del bpy.types.Scene.auto_compo_json_path
+    del bpy.types.Scene.auto_compo_preset
 
 if __name__ == "__main__":
     register()

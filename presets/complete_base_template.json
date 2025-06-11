@@ -1,0 +1,611 @@
+{
+    "nodes": [
+        {
+            "name": "Render Layers",
+            "type": "CompositorNodeRLayers",
+            "location": [
+                -862.4806518554688,
+                53.25893020629883
+            ],
+            "properties": {
+                "location_absolute": [
+                    -862.4806518554688,
+                    53.25893020629883
+                ],
+                "dimensions": [
+                    175.0,
+                    160.0
+                ],
+                "parent": null,
+                "warning_propagation": "ALL",
+                "use_custom_color": false,
+                "color": [
+                    0.6079999804496765,
+                    0.6079999804496765,
+                    0.6079999804496765
+                ],
+                "color_tag": "INPUT",
+                "select": false,
+                "show_options": true,
+                "show_preview": true,
+                "hide": false,
+                "mute": false,
+                "show_texture": false,
+                "bl_idname": "CompositorNodeRLayers",
+                "bl_label": "Render Layers",
+                "bl_description": "Input render passes from a scene render",
+                "bl_icon": "NONE",
+                "bl_static_type": "R_LAYERS",
+                "bl_width_default": 240.0,
+                "bl_width_min": 140.0,
+                "bl_width_max": 700.0,
+                "bl_height_default": 100.0,
+                "bl_height_min": 30.0,
+                "bl_height_max": 30.0,
+                "layer": "ViewLayer"
+            },
+            "label": "",
+            "width": 140.0,
+            "height": 100.0
+        },
+        {
+            "name": "Denoise",
+            "type": "CompositorNodeDenoise",
+            "location": [
+                -547.8836669921875,
+                107.88346862792969
+            ],
+            "properties": {
+                "location_absolute": [
+                    -547.8836669921875,
+                    107.88346862792969
+                ],
+                "dimensions": [
+                    175.0,
+                    302.0
+                ],
+                "parent": null,
+                "warning_propagation": "ALL",
+                "use_custom_color": false,
+                "color": [
+                    0.6079999804496765,
+                    0.6079999804496765,
+                    0.6079999804496765
+                ],
+                "color_tag": "FILTER",
+                "select": false,
+                "show_options": true,
+                "show_preview": false,
+                "hide": false,
+                "mute": false,
+                "show_texture": false,
+                "bl_idname": "CompositorNodeDenoise",
+                "bl_label": "Denoise",
+                "bl_description": "Denoise renders from Cycles and other ray tracing renderers",
+                "bl_icon": "NONE",
+                "bl_static_type": "DENOISE",
+                "bl_width_default": 140.0,
+                "bl_width_min": 100.0,
+                "bl_width_max": 700.0,
+                "bl_height_default": 100.0,
+                "bl_height_min": 30.0,
+                "bl_height_max": 30.0,
+                "use_hdr": true,
+                "prefilter": "ACCURATE",
+                "quality": "FOLLOW_SCENE"
+            },
+            "label": "",
+            "width": 140.0,
+            "height": 100.0
+        },
+        {
+            "name": "Glare",
+            "type": "CompositorNodeGlare",
+            "location": [
+                -305.5919494628906,
+                214.4013214111328
+            ],
+            "properties": {
+                "location_absolute": [
+                    -305.5919494628906,
+                    214.4013214111328
+                ],
+                "dimensions": [
+                    175.0,
+                    412.0
+                ],
+                "parent": null,
+                "warning_propagation": "ALL",
+                "use_custom_color": false,
+                "color": [
+                    0.6079999804496765,
+                    0.6079999804496765,
+                    0.6079999804496765
+                ],
+                "color_tag": "FILTER",
+                "select": false,
+                "show_options": true,
+                "show_preview": false,
+                "hide": false,
+                "mute": false,
+                "show_texture": false,
+                "bl_idname": "CompositorNodeGlare",
+                "bl_label": "Glare ",
+                "bl_description": "Add lens flares, fog and glows around bright parts of the image",
+                "bl_icon": "NONE",
+                "bl_static_type": "GLARE",
+                "bl_width_default": 140.0,
+                "bl_width_min": 100.0,
+                "bl_width_max": 700.0,
+                "bl_height_default": 100.0,
+                "bl_height_min": 30.0,
+                "bl_height_max": 30.0,
+                "glare_type": "FOG_GLOW",
+                "quality": "MEDIUM",
+                "iterations": 3,
+                "color_modulation": 0.25,
+                "mix": 0.0,
+                "threshold": 0.0,
+                "streaks": 4,
+                "angle_offset": 0.0,
+                "fade": 0.8999999761581421,
+                "use_rotate_45": true,
+                "size": 6
+            },
+            "label": "",
+            "width": 140.0,
+            "height": 100.0
+        },
+        {
+            "name": "Ellipse Mask",
+            "type": "CompositorNodeEllipseMask",
+            "location": [
+                -195.08770751953125,
+                -262.8182067871094
+            ],
+            "properties": {
+                "location_absolute": [
+                    -195.08770751953125,
+                    -262.8182067871094
+                ],
+                "dimensions": [
+                    137.5,
+                    244.0
+                ],
+                "parent": null,
+                "warning_propagation": "ALL",
+                "use_custom_color": false,
+                "color": [
+                    0.6079999804496765,
+                    0.6079999804496765,
+                    0.6079999804496765
+                ],
+                "color_tag": "MATTE",
+                "select": false,
+                "show_options": true,
+                "show_preview": false,
+                "hide": false,
+                "mute": false,
+                "show_texture": false,
+                "bl_idname": "CompositorNodeEllipseMask",
+                "bl_label": "Ellipse Mask",
+                "bl_description": "Create elliptical mask suitable for use as a simple matte or vignette mask",
+                "bl_icon": "NONE",
+                "bl_static_type": "ELLIPSEMASK",
+                "bl_width_default": 260.0,
+                "bl_width_min": 110.0,
+                "bl_width_max": 320.0,
+                "bl_height_default": 100.0,
+                "bl_height_min": 30.0,
+                "bl_height_max": 30.0,
+                "mask_type": "ADD",
+                "x": 0.5,
+                "y": 0.5,
+                "mask_width": 0.20000000298023224,
+                "mask_height": 0.10000000149011612,
+                "rotation": 0.0
+            },
+            "label": "",
+            "width": 110.0,
+            "height": 30.0
+        },
+        {
+            "name": "Blur",
+            "type": "CompositorNodeBlur",
+            "location": [
+                15.826288223266602,
+                -116.69757080078125
+            ],
+            "properties": {
+                "location_absolute": [
+                    15.826288223266602,
+                    -116.69757080078125
+                ],
+                "dimensions": [
+                    175.0,
+                    340.0
+                ],
+                "parent": null,
+                "warning_propagation": "ALL",
+                "use_custom_color": false,
+                "color": [
+                    0.6079999804496765,
+                    0.6079999804496765,
+                    0.6079999804496765
+                ],
+                "color_tag": "FILTER",
+                "select": false,
+                "show_options": true,
+                "show_preview": false,
+                "hide": false,
+                "mute": false,
+                "show_texture": false,
+                "bl_idname": "CompositorNodeBlur",
+                "bl_label": "Blur",
+                "bl_description": "Blur an image, using several blur modes",
+                "bl_icon": "NONE",
+                "bl_static_type": "BLUR",
+                "bl_width_default": 140.0,
+                "bl_width_min": 100.0,
+                "bl_width_max": 700.0,
+                "bl_height_default": 100.0,
+                "bl_height_min": 30.0,
+                "bl_height_max": 30.0,
+                "use_variable_size": false,
+                "use_extended_bounds": false,
+                "size_x": 300,
+                "size_y": 300,
+                "use_relative": false,
+                "aspect_correction": "NONE",
+                "factor": 0.0,
+                "factor_x": 0.0,
+                "factor_y": 0.0,
+                "filter_type": "GAUSS",
+                "use_bokeh": false,
+                "use_gamma_correction": false
+            },
+            "label": "",
+            "width": 140.0,
+            "height": 100.0
+        },
+        {
+            "name": "Invert",
+            "type": "CompositorNodeInvert",
+            "location": [
+                248.5682830810547,
+                -101.67582702636719
+            ],
+            "properties": {
+                "location_absolute": [
+                    248.5682830810547,
+                    -101.67582702636719
+                ],
+                "dimensions": [
+                    175.0,
+                    178.0
+                ],
+                "parent": null,
+                "warning_propagation": "ALL",
+                "use_custom_color": false,
+                "color": [
+                    0.6079999804496765,
+                    0.6079999804496765,
+                    0.6079999804496765
+                ],
+                "color_tag": "COLOR",
+                "select": true,
+                "show_options": true,
+                "show_preview": false,
+                "hide": false,
+                "mute": false,
+                "show_texture": false,
+                "bl_idname": "CompositorNodeInvert",
+                "bl_label": "Invert Color",
+                "bl_description": "Invert colors, producing a negative",
+                "bl_icon": "NONE",
+                "bl_static_type": "INVERT",
+                "bl_width_default": 140.0,
+                "bl_width_min": 100.0,
+                "bl_width_max": 700.0,
+                "bl_height_default": 100.0,
+                "bl_height_min": 30.0,
+                "bl_height_max": 30.0,
+                "invert_rgb": true,
+                "invert_alpha": false
+            },
+            "label": "",
+            "width": 140.0,
+            "height": 100.0
+        },
+        {
+            "name": "Mix",
+            "type": "CompositorNodeMixRGB",
+            "location": [
+                -44.2006950378418,
+                266.29461669921875
+            ],
+            "properties": {
+                "location_absolute": [
+                    -44.2006950378418,
+                    266.29461669921875
+                ],
+                "dimensions": [
+                    175.0,
+                    207.0
+                ],
+                "parent": null,
+                "warning_propagation": "ALL",
+                "use_custom_color": false,
+                "color": [
+                    0.6079999804496765,
+                    0.6079999804496765,
+                    0.6079999804496765
+                ],
+                "color_tag": "COLOR",
+                "select": false,
+                "show_options": true,
+                "show_preview": false,
+                "hide": false,
+                "mute": false,
+                "show_texture": false,
+                "bl_idname": "CompositorNodeMixRGB",
+                "bl_label": "Mix",
+                "bl_description": "Blend two images together using various blending modes",
+                "bl_icon": "NONE",
+                "bl_static_type": "MIX_RGB",
+                "bl_width_default": 140.0,
+                "bl_width_min": 100.0,
+                "bl_width_max": 700.0,
+                "bl_height_default": 100.0,
+                "bl_height_min": 30.0,
+                "bl_height_max": 30.0,
+                "blend_type": "MULTIPLY",
+                "use_alpha": true,
+                "use_clamp": false
+            },
+            "label": "",
+            "width": 140.0,
+            "height": 100.0
+        },
+        {
+            "name": "Color Balance",
+            "type": "CompositorNodeColorBalance",
+            "location": [
+                192.63406372070312,
+                263.56341552734375
+            ],
+            "properties": {
+                "location_absolute": [
+                    192.63406372070312,
+                    263.56341552734375
+                ],
+                "dimensions": [
+                    250.0,
+                    310.0
+                ],
+                "parent": null,
+                "warning_propagation": "ALL",
+                "use_custom_color": false,
+                "color": [
+                    0.6079999804496765,
+                    0.6079999804496765,
+                    0.6079999804496765
+                ],
+                "color_tag": "COLOR",
+                "select": false,
+                "show_options": true,
+                "show_preview": false,
+                "hide": false,
+                "mute": false,
+                "show_texture": false,
+                "bl_idname": "CompositorNodeColorBalance",
+                "bl_label": "Color Balance",
+                "bl_description": "Adjust color and values",
+                "bl_icon": "NONE",
+                "bl_static_type": "COLORBALANCE",
+                "bl_width_default": 400.0,
+                "bl_width_min": 200.0,
+                "bl_width_max": 400.0,
+                "bl_height_default": 100.0,
+                "bl_height_min": 30.0,
+                "bl_height_max": 30.0,
+                "correction_method": "LIFT_GAMMA_GAIN",
+                "lift": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "gamma": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "gain": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "power": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "slope": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "offset_basis": 0.0,
+                "input_temperature": 6500.0,
+                "input_tint": 10.0,
+                "input_whitepoint": [
+                    0.9991405606269836,
+                    1.000373363494873,
+                    0.9988179206848145
+                ],
+                "output_temperature": 6500.0,
+                "output_tint": 10.0,
+                "output_whitepoint": [
+                    0.9991405606269836,
+                    1.000373363494873,
+                    0.9988179206848145
+                ]
+            },
+            "label": "",
+            "width": 200.0,
+            "height": 100.0
+        },
+        {
+            "name": "Composite",
+            "type": "CompositorNodeComposite",
+            "location": [
+                511.32379150390625,
+                135.19573974609375
+            ],
+            "properties": {
+                "location_absolute": [
+                    511.32379150390625,
+                    135.19573974609375
+                ],
+                "dimensions": [
+                    175.0,
+                    121.0
+                ],
+                "parent": null,
+                "warning_propagation": "ALL",
+                "use_custom_color": false,
+                "color": [
+                    0.6079999804496765,
+                    0.6079999804496765,
+                    0.6079999804496765
+                ],
+                "color_tag": "OUTPUT",
+                "select": false,
+                "show_options": true,
+                "show_preview": false,
+                "hide": false,
+                "mute": false,
+                "show_texture": false,
+                "bl_idname": "CompositorNodeComposite",
+                "bl_label": "Composite",
+                "bl_description": "Final render output",
+                "bl_icon": "NONE",
+                "bl_static_type": "COMPOSITE",
+                "bl_width_default": 140.0,
+                "bl_width_min": 100.0,
+                "bl_width_max": 700.0,
+                "bl_height_default": 100.0,
+                "bl_height_min": 30.0,
+                "bl_height_max": 30.0,
+                "use_alpha": true
+            },
+            "label": "",
+            "width": 140.0,
+            "height": 100.0
+        },
+        {
+            "name": "Viewer",
+            "type": "CompositorNodeViewer",
+            "location": [
+                511.32379150390625,
+                -64.80426025390625
+            ],
+            "properties": {
+                "location_absolute": [
+                    511.32379150390625,
+                    -64.80426025390625
+                ],
+                "dimensions": [
+                    175.0,
+                    120.0
+                ],
+                "parent": null,
+                "warning_propagation": "ALL",
+                "use_custom_color": false,
+                "color": [
+                    0.6079999804496765,
+                    0.6079999804496765,
+                    0.6079999804496765
+                ],
+                "color_tag": "OUTPUT",
+                "select": false,
+                "show_options": true,
+                "show_preview": false,
+                "hide": false,
+                "mute": false,
+                "show_texture": false,
+                "bl_idname": "CompositorNodeViewer",
+                "bl_label": "Viewer",
+                "bl_description": "Visualize data from inside a node graph, in the image editor or as a backdrop",
+                "bl_icon": "NONE",
+                "bl_static_type": "VIEWER",
+                "bl_width_default": 140.0,
+                "bl_width_min": 100.0,
+                "bl_width_max": 700.0,
+                "bl_height_default": 100.0,
+                "bl_height_min": 30.0,
+                "bl_height_max": 30.0,
+                "use_alpha": true,
+                "ui_shortcut": 0
+            },
+            "label": "",
+            "width": 140.0,
+            "height": 100.0
+        }
+    ],
+    "links": [
+        {
+            "from_node": "Render Layers",
+            "from_socket": "Image",
+            "to_node": "Denoise",
+            "to_socket": "Image"
+        },
+        {
+            "from_node": "Denoise",
+            "from_socket": "Image",
+            "to_node": "Glare",
+            "to_socket": "Image"
+        },
+        {
+            "from_node": "Glare",
+            "from_socket": "Image",
+            "to_node": "Mix",
+            "to_socket": "Image"
+        },
+        {
+            "from_node": "Ellipse Mask",
+            "from_socket": "Mask",
+            "to_node": "Blur",
+            "to_socket": "Image"
+        },
+        {
+            "from_node": "Blur",
+            "from_socket": "Image",
+            "to_node": "Invert",
+            "to_socket": "Color"
+        },
+        {
+            "from_node": "Mix",
+            "from_socket": "Image",
+            "to_node": "Color Balance",
+            "to_socket": "Image"
+        },
+        {
+            "from_node": "Color Balance",
+            "from_socket": "Image",
+            "to_node": "Composite",
+            "to_socket": "Image"
+        },
+        {
+            "from_node": "Color Balance",
+            "from_socket": "Image",
+            "to_node": "Viewer",
+            "to_socket": "Image"
+        }
+    ]
+}

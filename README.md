@@ -8,8 +8,10 @@
 
 **Render Properties > Auto Compo Lite**
 
-![alt text](images/interface.png)
+![Auto Compo Lite panel](images/interface.png)
 
-![alt text](images/entire_screen.png)
+![Compositing screen](images/entire_screen.png)
 
-![](images/gif.gif)
+![Example of basic compositing](images/demo.gif)
+
+![Example of the difference between a render with and without compositing](images/diff.png)

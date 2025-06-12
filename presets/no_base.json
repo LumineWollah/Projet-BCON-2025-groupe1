@@ -4,8 +4,8 @@
             "name": "Render Layers",
             "type": "CompositorNodeRLayers",
             "location": [
-                759.7633666992188,
-                -24.45362091064453
+                750.0,
+                0.0
             ],
             "properties": {
                 "width": 140.0,
@@ -13,7 +13,7 @@
                 "parent": null,
                 "warning_propagation": "ALL",
                 "use_custom_color": false,
-                "select": true,
+                "select": false,
                 "show_options": true,
                 "show_preview": true,
                 "hide": false,
@@ -40,7 +40,7 @@
             "type": "CompositorNodeViewer",
             "location": [
                 1000.0,
-                0.0
+                100
             ],
             "properties": {
                 "width": 140.0,
@@ -48,7 +48,7 @@
                 "parent": null,
                 "warning_propagation": "ALL",
                 "use_custom_color": false,
-                "select": false,
+                "select": true,
                 "show_options": true,
                 "show_preview": false,
                 "hide": false,
@@ -70,6 +70,41 @@
             "label": "",
             "width": 140.0,
             "height": 100.0
+        },
+        {
+            "name": "Composite",
+            "type": "CompositorNodeComposite",
+            "location": [
+                1000.0,
+                -50
+            ],
+            "properties": {
+                "width": 140.0,
+                "height": 100.0,
+                "parent": null,
+                "warning_propagation": "ALL",
+                "use_custom_color": false,
+                "select": false,
+                "show_options": true,
+                "show_preview": false,
+                "hide": false,
+                "mute": false,
+                "show_texture": false,
+                "bl_idname": "CompositorNodeComposite",
+                "bl_label": "Composite",
+                "bl_description": "Final render output",
+                "bl_icon": "NONE",
+                "bl_width_default": 140.0,
+                "bl_width_min": 100.0,
+                "bl_width_max": 700.0,
+                "bl_height_default": 100.0,
+                "bl_height_min": 30.0,
+                "bl_height_max": 30.0,
+                "use_alpha": true
+            },
+            "label": "",
+            "width": 140.0,
+            "height": 100.0
         }
     ],
     "links": [
@@ -77,6 +112,12 @@
             "from_node": "Render Layers",
             "from_socket": "Image",
             "to_node": "Viewer.001",
+            "to_socket": "Image"
+        },
+        {
+            "from_node": "Render Layers",
+            "from_socket": "Image",
+            "to_node": "Composite",
             "to_socket": "Image"
         }
     ]

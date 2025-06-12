@@ -5,12 +5,16 @@ import os
 
 # === PROPRIÉTÉS ===
 
+
 preset_items = [
+    ("no_base.json", "No Compositing", ""),
     ("base_compo.json", "Base Compo", ""),
     ("film_look.json", "Film Look", ""),
     ("soft_glow.json", "Soft Glow", ""),
-    ("color_pop.json", "Color Pop", "")
+    ("color_pop.json", "Color Pop", ""),
+    ("multi_source_compo.json", "Multi Source Compo", "")
 ]
+
 
 bpy.types.Scene.auto_compo_json_path = bpy.props.StringProperty(
     name="JSON Path",
@@ -22,7 +26,7 @@ bpy.types.Scene.auto_compo_preset = bpy.props.EnumProperty(
     items=preset_items
 )
 
-# === FONCTIONS UTILES ===
+# === FONCTIONS ===
 
 def export_nodes_to_json(tree, filepath):
     data = {"nodes": [], "links": []}
@@ -31,7 +35,7 @@ def export_nodes_to_json(tree, filepath):
             "name": node.name,
             "type": node.bl_idname,
             "location": list(node.location),
-            "properties": {},
+            "properties": {}, 
             "label": node.label,
             "width": node.width,
             "height": node.height
@@ -40,7 +44,7 @@ def export_nodes_to_json(tree, filepath):
             if not prop.is_readonly and prop.identifier not in {"location", "name", "label"}:
                 try:
                     val = getattr(node, prop.identifier)
-                    json.dumps(val)  # check serializable
+                    json.dumps(val) 
                     node_data["properties"][prop.identifier] = val
                 except:
                     pass
@@ -90,29 +94,11 @@ def import_nodes_from_json(tree, filepath):
             if from_socket and to_socket:
                 tree.links.new(from_socket, to_socket)
 
-    # Auto setup viewer backdrop
-    if not any(n for n in tree.nodes if n.bl_idname == 'CompositorNodeViewer'):
-        viewer = tree.nodes.new('CompositorNodeViewer')
-        viewer.location = (600, -200)
-
-    for node in tree.nodes:
-        if node.bl_idname == 'CompositorNodeViewer':
-            composite_node = next((n for n in tree.nodes if n.bl_idname == 'CompositorNodeComposite'), None)
-            if composite_node:
-                tree.links.new(composite_node.outputs['Image'], node.inputs['Image'])
-            break
-
-    tree.use_opencl = True
-    bpy.context.scene.use_nodes = True
-    bpy.context.area.ui_type = 'CompositorNodeTree'
-    bpy.context.space_data.show_backdrop = True
-
 # === OPÉRATEURS ===
 
 class AUTO_COMPO_OT_export_json(bpy.types.Operator):
     bl_idname = "auto_compo.export_json"
     bl_label = "Export Nodes to JSON"
-
     def execute(self, context):
         path = context.scene.auto_compo_json_path
         tree = context.scene.node_tree
@@ -125,7 +111,6 @@ class AUTO_COMPO_OT_export_json(bpy.types.Operator):
 class AUTO_COMPO_OT_import_json(bpy.types.Operator):
     bl_idname = "auto_compo.import_json"
     bl_label = "Import Nodes from JSON"
-
     def execute(self, context):
         path = context.scene.auto_compo_json_path
         tree = context.scene.node_tree
@@ -138,7 +123,6 @@ class AUTO_COMPO_OT_import_json(bpy.types.Operator):
 class AUTO_COMPO_OT_load_preset(bpy.types.Operator):
     bl_idname = "auto_compo.load_preset"
     bl_label = "Load Selected Preset"
-
     def execute(self, context):
         scene = context.scene
         tree = scene.node_tree
@@ -153,6 +137,20 @@ class AUTO_COMPO_OT_load_preset(bpy.types.Operator):
         import_nodes_from_json(tree, preset_path)
         return {'FINISHED'}
 
+class AUTO_COMPO_OT_clear_nodes(bpy.types.Operator):
+    bl_idname = "auto_compo.clear_nodes"
+    bl_label = "Clear All Nodes"
+    def execute(self, context):
+        tree = context.scene.node_tree
+        if tree:
+            tree.nodes.clear()
+            tree.links.clear()
+            self.report({'INFO'}, "Cleared all nodes")
+            return {'FINISHED'}
+        else:
+            self.report({'ERROR'}, "No active node tree")
+            return {'CANCELLED'}
+
 # === PANEL ===
 
 class AUTO_COMPO_PT_main_panel(bpy.types.Panel):
@@ -165,13 +163,18 @@ class AUTO_COMPO_PT_main_panel(bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
         scene = context.scene
+
         layout.prop(scene, "auto_compo_json_path")
         layout.operator("auto_compo.export_json", icon="EXPORT")
         layout.operator("auto_compo.import_json", icon="IMPORT")
+
         layout.separator()
         layout.label(text="Presets:")
         layout.prop(scene, "auto_compo_preset")
         layout.operator("auto_compo.load_preset", icon="IMPORT")
+        
+        layout.separator()
+        layout.operator("auto_compo.clear_nodes", icon="TRASH")
 
 # === REGISTER ===
 
@@ -179,6 +182,7 @@ classes = [
     AUTO_COMPO_OT_export_json,
     AUTO_COMPO_OT_import_json,
     AUTO_COMPO_OT_load_preset,
+    AUTO_COMPO_OT_clear_nodes,
     AUTO_COMPO_PT_main_panel
 ]
 
